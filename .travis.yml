@@ -9,6 +9,12 @@ before_scripts:
 install:
   - docker-compose -f udagram-deployment/docker/docker-compose-build.yaml build --parallel 
 
+scripts:
+  - docker tag reverseproxy luancaius/reverseproxy2:latest
+  - docker tag udacity-restapi-user luancaius/udacity-restapi-user2:latest
+  - docker tag udacity-restapi-feed luancaius/udacity-restapi-feed2:latest
+  - docker tag udacity-frontend luancaius/udacity-frontend2:latest
+
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push luancaius/reverseproxy2:latest
