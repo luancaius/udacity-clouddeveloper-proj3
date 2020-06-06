@@ -1,0 +1,36 @@
+language: node_js
+node_js:
+  - 13
+
+services:
+  - docker
+
+install:
+  - echo "nothing to be installed"
+
+before_scripts:
+  - echo "no tests"
+
+before_install:
+  - docker -v && docker-compose -v
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  - chmod +x ./kubectl
+  - sudo mv ./kubectl /usr/local/bin/kubectl
+
+install:
+  - docker-compose -f udagram-deployment/docker/docker-compose-build.yaml build --parallel 
+
+scripts:
+  - echo "No scripts"
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push luancaius/reverseproxy2:latest
+  - docker push luancaius/udacity-restapi-user2:latest
+  - docker push luancaius/udacity-restapi-feed2:latest
+  - docker push luancaius/udacity-frontend2:latest
+  - echo "Finished pushing images"
