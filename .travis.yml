@@ -10,16 +10,24 @@ env:
   - DOCKER_COMPOSE_VERSION=1.4.2
 
 before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
+    # list docker-engine versions
+    - apt-cache madison docker-engine
+    
+    # upgrade docker-engine to specific version
+    - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_VERSION}
+
+    # reinstall docker-compose at specific version
+    - sudo rm -f /usr/local/bin/docker-compose
+    - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+    - chmod +x docker-compose
+    - sudo mv docker-compose /usr/local/bin
 
 install:
   - docker-compose -f udagram-deployment/docker/docker-compose-build.yaml build --parallel 
 
 scripts:
-  - echo "No scripts"
+  - docker version
+  - docker-compose version
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
