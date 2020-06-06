@@ -7,13 +7,7 @@ before_scripts:
   - echo "no tests"
 
 install:
-  - docker version
-  - docker-compose version
   - docker-compose -f udagram-deployment/docker/docker-compose-build.yaml build --parallel 
-
-scripts:
-  - docker version
-  - docker-compose version
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
