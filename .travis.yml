@@ -13,16 +13,16 @@ before_scripts:
 
 scripts:
   - docker --version 
-  - docker build -t reverseproxy2 ./udacity-c3-deployment/docker/
+  - docker build -t reverseproxy2 ./udagram-deployment/docker/
   - docker tag reverseproxy2 luancaius/reverseproxy2:latest
 
-  - docker build -t udacity-restapi-user2 ./udacity-c3-restapi-user/
+  - docker build -t udacity-restapi-user2 ./udagram-api-user/
   - docker tag udacity-restapi-user2 luancaius/udacity-restapi-user2:latest
 
-  - docker build -t udacity-restapi-feed2 ./udacity-c3-restapi-feed/
+  - docker build -t udacity-restapi-feed2 ./udagram-api-feed/
   - docker tag udacity-restapi-feed2 luancaius/udacity-restapi-feed2:latest
 
-  - docker build -t udacity-frontend2 ./udacity-c3-frontend/
+  - docker build -t udacity-frontend2 ./udagram-frontend/
   - docker tag udacity-frontend2 luancaius/udacity-frontend2:latest
 
 after_success:
