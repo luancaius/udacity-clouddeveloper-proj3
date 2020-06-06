@@ -26,6 +26,7 @@ scripts:
   - docker tag udacity-frontend2 luancaius/udacity-frontend2:latest
 
 after_success:
+  - echo "using login for $DOCKER_USERNAME"
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push luancaius/reverseproxy2:latest
   - docker push luancaius/udacity-restapi-user2:latest

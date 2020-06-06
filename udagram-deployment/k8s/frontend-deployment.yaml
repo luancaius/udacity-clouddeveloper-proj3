@@ -5,7 +5,10 @@ metadata:
     service: frontend
   name: frontend
 spec:
-  replicas: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      service: frontend
   template:
     metadata:
       labels:
@@ -13,7 +16,7 @@ spec:
         api: external        
     spec:
       containers:
-      - image: luancaius/udagram-frontend2:local
+      - image: luancaius/udacity-frontend2
         name: frontend
         imagePullPolicy: Always          
         ports:

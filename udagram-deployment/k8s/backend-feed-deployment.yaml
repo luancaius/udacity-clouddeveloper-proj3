@@ -5,14 +5,17 @@ metadata:
     service: backend-feed
   name: backend-feed
 spec:
-  replicas: 3
+  replicas: 1
+  selector:
+    matchLabels:
+      service: backend-feed
   template:
     metadata:
       labels:
         service: backend-feed
     spec:
       containers:
-      - image: luancaius/udagram-feed2
+      - image: luancaius/udacity-restapi-feed2
         name: backend-feed
         imagePullPolicy: Always  
         resources:
